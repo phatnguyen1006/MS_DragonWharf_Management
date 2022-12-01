@@ -5,6 +5,7 @@ import cors from "cors"
 import UserRouter from "./routes/user.route.js";
 import ReportRouter from "./routes/report.route.js";
 import AdminRouter from "./routes/admin.route.js";
+import TourRouter from "./routes/tour.route.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.use("/user", UserRouter)
 app.use("/report", ReportRouter)
 app.use("/admin", AdminRouter)
+app.use("/tour", TourRouter)
 
 app.get("/", (req, res) => {
     res.status(200).json({message: "Hello from management"})
