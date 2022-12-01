@@ -34,6 +34,24 @@ class ReportController {
             })
         }
     }
+
+    static async getReportById(req, res) {
+        try {
+            const { reportId } = req.params
+            
+            const result = await ReportService.getReportById(reportId);
+            if (result.success) {
+                return res.json(result)
+            } else return res.status(400).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
 }
 
 export default ReportController;
