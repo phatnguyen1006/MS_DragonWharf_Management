@@ -30,6 +30,35 @@ class ReportService {
             data: reports
         }
     }
+
+    static async getReportById(reportId) {
+        try {
+            const report = await Report.findById(reportId).select("-__v");
+    
+            if (!report) {
+                return {
+                    success: false,
+                    message: "Không tìm thấy dữ liệu phản hồi.",
+                    data: null
+                }
+            }
+    
+            return {
+                success: true,
+                message: "Lấy dữ liệu phản hồi thành công.",
+                data: report
+            }
+        } catch(e) {
+            if (e instanceof mongoose.CastError) {
+                return {
+                    success: false,
+                    message: "Không tìm thấy dữ liệu phản hồi.",
+                    data: null
+                }
+            }
+            throw e
+        }
+    }
 }
 
 export default ReportService

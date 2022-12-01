@@ -1,5 +1,6 @@
 import express from "express"
 import connectDB from "./config/config.js"
+import cors from "cors"
 
 import UserRouter from "./routes/user.route.js";
 import ReportRouter from "./routes/report.route.js";
@@ -7,6 +8,7 @@ import AdminRouter from "./routes/admin.route.js";
 
 const app = express();
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
