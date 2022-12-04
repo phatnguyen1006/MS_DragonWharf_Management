@@ -15,8 +15,7 @@ const tourSchema = new mongoose.Schema({
         required: [true, "Number of people is required"]
     },
     guider: {
-        type: String,
-        required: [true, "Name of guider is required"]
+        type: String
     },
     note: {
         type: String
@@ -24,6 +23,10 @@ const tourSchema = new mongoose.Schema({
     fee: {
         type: Number,
         required: [true, "Tour fee is required"]
+    },
+    inspected: {
+        type: Boolean,
+        default: false
     }
 })
 

@@ -74,6 +74,24 @@ class TourController {
             })
         }
     }
+
+    static async assignGuider(req, res) {
+        try {
+            const { tourId, guider } = req.body
+
+            const result = await TourService.assignGuider(tourId, guider)
+
+            if (result.success) return res.json(result)
+            else return res.status(404).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
 }
 
 export default TourController;
