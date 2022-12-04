@@ -4,6 +4,16 @@ import mongoose from "mongoose"
 class TourService {
     static async bookTour(data) {
         try {
+            delete data.guider;
+
+            if (Date.parse(data.date) < Date.now()) {
+                return {
+                    success: false,
+                    message: "Không thể đặt tour tại thời điểm trong quá khứ.",
+                    data: null
+                }
+            }
+
             const tour = await Tour.create(data);
 
             return {
@@ -74,6 +84,36 @@ class TourService {
             if (e instanceof mongoose.CastError) return {
                 success: false,
                 message: "ID tour không tồn tại.",
+                data: null
+            }
+            throw e
+        }
+    }
+
+    static async assignGuider(tourId, guider) {
+        try {
+            if (!guider || guider == "") return {
+                success: false,
+                message: "Vui lòng cung cấp tên người hướng dẫn.",
+                data: null
+            }
+            const tour = await Tour.findByIdAndUpdate(tourId, { guider, inspected: true }, { returnDocument: "after" })
+
+            if (!tour) return {
+                success: false,
+                message: "Không tìm thấy tour.",
+                data: null
+            }
+
+            return {
+                success: true,
+                message: "Đã duyệt tour và thêm người hướng dẫn.",
+                data: tour
+            }
+        } catch(e) {
+            if (e instanceof mongoose.CastError) return {
+                success: false,
+                message: "Không tìm thấy tour.",
                 data: null
             }
             throw e
