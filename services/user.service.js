@@ -170,6 +170,21 @@ class UserService {
             throw e
         }
     }
+
+    static async searchUser(keyword) {
+
+        const searchResult = await User.find().or([
+            { email: { $regex: new RegExp(keyword, "i")}},
+            { name: { $regex: new RegExp(keyword, "i")}},
+            { phone: { $regex: new RegExp(keyword, "i")}},
+        ])
+
+        return {
+            success: true,
+            message: "Tìm kiếm user thành công.",
+            data: searchResult
+        }
+    }
 }
 
 export default UserService;
