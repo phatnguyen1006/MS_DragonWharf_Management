@@ -177,7 +177,7 @@ class UserService {
             { email: { $regex: new RegExp(keyword, "i")}},
             { name: { $regex: new RegExp(keyword, "i")}},
             { phone: { $regex: new RegExp(keyword, "i")}},
-        ])
+        ]).select("-password -__v")
 
         return {
             success: true,

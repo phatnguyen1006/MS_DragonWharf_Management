@@ -68,7 +68,7 @@ class ReportService {
             { email: { $regex: new RegExp(keyword, "i") } },
             { content: { $regex: new RegExp(keyword, "i") } },
             { type: { $regex: new RegExp(keyword, "i") } },
-        ])
+        ]).select("-__v")
 
         return {
             success: true,
