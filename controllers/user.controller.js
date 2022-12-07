@@ -169,6 +169,28 @@ class UserController {
             })
         }
     }
+
+    static async searchUser(req, res) {
+        try {
+            const query = req.query.q;
+            if (!query) return res.status(400).json({
+                success: false,
+                message: "Vui lòng cung cấp từ khoá.",
+                data: null
+            })
+
+            const result = await UserService.searchUser(query)
+            if (result.success) return res.json(result)
+            else return res.status(500).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
 }
 
 export default UserController;

@@ -31,6 +31,9 @@ class ReportService {
         }
     }
 
+    // Admin only
+    ////////////////////////////////////////////////////////////////////////////////
+
     static async getReportById(reportId) {
         try {
             const report = await Report.findById(reportId).select("-__v");
@@ -57,6 +60,20 @@ class ReportService {
                 }
             }
             throw e
+        }
+    }
+
+    static async searchReport(keyword) {
+        const searchResult = await Report.find().or([
+            { email: { $regex: new RegExp(keyword, "i") } },
+            { content: { $regex: new RegExp(keyword, "i") } },
+            { type: { $regex: new RegExp(keyword, "i") } },
+        ])
+
+        return {
+            success: true,
+            message: "Tìm kiếm phản hồi thành công.",
+            data: searchResult
         }
     }
 }

@@ -12,5 +12,6 @@ UserRouter.route("/")
 UserRouter.post("/refresh-token", UserController.refreshToken)
 UserRouter.get("/list", AuthMiddleware.requireAdmin, UserController.getUserList)
 UserRouter.get("/profile/:id", AuthMiddleware.requireAdmin, UserController.getUserById)
+UserRouter.get("/search", AuthMiddleware.requireAdmin, UserController.searchUser)
 
 export default UserRouter;
