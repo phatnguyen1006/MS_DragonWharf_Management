@@ -38,10 +38,13 @@ class UserService {
 
         const user = await User.create({ email, password, name, phone, dob });
 
+        const accessToken = JWTHelper.getAccessToken(user._id)
+        const refreshToken =  JWTHelper.getRefreshToken(user._id)
+
         return {
             success: true,
             message: "Đăng ký thành công!",
-            data: user._id
+            data: { accessToken, refreshToken }
         }
     }
 
