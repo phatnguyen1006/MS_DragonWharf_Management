@@ -15,6 +15,7 @@ class TourService {
             }
 
             const tour = await Tour.create(data);
+            await   Tour.populate(tour, {path: "user", select: "-password -__v"})
 
             return {
                 success: true,
