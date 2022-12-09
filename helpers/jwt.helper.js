@@ -6,7 +6,7 @@ class JWTHelper {
             jwt.verify(token, process.env.SECRET_TOKEN_REFRESH, (err, payload) => {
                 if (err) return reject(err)
                 const userId = payload.id
-                resolve(payload)
+                resolve(userId)
             });
         })
     }
