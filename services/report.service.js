@@ -76,6 +76,47 @@ class ReportService {
             data: searchResult
         }
     }
+
+    static async statisticReport() {
+        try {
+            console.log("errrorrr    ")
+            const statisticReport = await Report.aggregate(
+                [
+                    {
+                        $group: { 
+                            _id: {
+                                type: "$type",
+                            },
+                            count: { $sum: 1}
+                        },
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            type: "$_id.type",
+                            count: "$count",
+                        }
+                    }
+                ]
+            )
+
+            return {
+                success: true,
+                message: "Thống kê Report thành công.",
+                data: statisticReport
+            }
+        } catch (e) {
+            if (e instanceof mongoose.CastError) {
+                return {
+                    success: false,
+                    message: "Không tìm thấy dữ liệu phản hồi.",
+                    data: null
+                }
+            }
+            console.log("errrorrr    ", e)
+            throw e
+        }
+    }
 }
 
 export default ReportService

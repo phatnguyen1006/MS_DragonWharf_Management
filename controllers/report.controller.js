@@ -75,6 +75,22 @@ class ReportController {
             })
         }
     }
+
+    static async statisticReport(req, res) {
+        console.log("errrorrr    ")
+        try {
+            const result = await ReportService.statisticReport()
+            if (result.success) return res.json(result)
+            else return res.status(500).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: true,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
 }
 
 export default ReportController;

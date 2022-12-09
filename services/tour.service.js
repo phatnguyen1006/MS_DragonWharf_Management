@@ -119,6 +119,62 @@ class TourService {
             throw e
         }
     }
+
+    static async statisticTourByMonth(from, to) {
+        try {
+            const statisticTour = await Tour.aggregate(
+                [
+                    { 
+                        $match: {
+                            date: { $gt: from, $lt: to },
+                        },
+                    },
+                    { 
+                        $addFields: {
+                            month: { $dateToString: { format: "%m/%Y", date: "$date" } },
+                            sortMonth: { $dateToString: { format: "%Y-%m", date: "$date" } }
+                        }
+                    },
+                    {
+                        $group: { 
+                            _id: {
+                                sortMonth: "$sortMonth",
+                            },
+                            count: { $sum: 1}
+                        },
+                    },
+                    { 
+                        $addFields: {
+                            sortMonth: { $toDate: "$_id.sortMonth" }
+                        }
+                    },
+                    { 
+                        $sort : { sortMonth: 1 } 
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            month: { $dateToString: { format: "%m/%Y", date: "$sortMonth" } },
+                            count: "$count",
+                        }
+                    },
+                ]
+            )
+
+            return {
+                success: true,
+                message: "Lấy thống kê Tour thành công.",
+                data: statisticTour
+            }
+        } catch(e) {
+            if (e instanceof mongoose.CastError) return {
+                success: false,
+                message: "Không tìm thấy tour.",
+                data: null
+            }
+            throw e
+        }
+    }
 }
 
 export default TourService;
