@@ -8,7 +8,8 @@ TourRouter.route("/")
     .post(AuthMiddleware.requireUser, TourController.bookTour)
     .get(AuthMiddleware.requireAdmin, TourController.getTours)
 TourRouter.get("/user", AuthMiddleware.requireUser, TourController.getToursByUser)
-TourRouter.get("/:tourId", AuthMiddleware.requireAdmin, TourController.getTourById)
 TourRouter.put("/inspect", AuthMiddleware.requireAdmin, TourController.assignGuider)
+TourRouter.get("/statisticTour/:from/:to", AuthMiddleware.requireAdmin, TourController.statisticTourByMonth)
+TourRouter.get("/:tourId", AuthMiddleware.requireAdmin, TourController.getTourById)
 
 export default TourRouter;

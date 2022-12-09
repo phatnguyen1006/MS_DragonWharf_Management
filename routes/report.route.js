@@ -8,6 +8,7 @@ ReportRouter.route("/")
     .post(ReportController.submitReport)
     .get(AuthMiddleware.requireAdmin, ReportController.getReports)
 ReportRouter.get("/search", AuthMiddleware.requireAdmin, ReportController.searchReport)
+ReportRouter.get("/statisticReport", AuthMiddleware.requireAdmin, ReportController.statisticReport)
 ReportRouter.get("/:reportId", ReportController.getReportById)
 
 export default ReportRouter;
