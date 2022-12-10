@@ -21,8 +21,7 @@ const tourSchema = new mongoose.Schema({
         type: String
     },
     fee: {
-        type: Number,
-        required: [true, "Tour fee is required"]
+        type: Number
     },
     inspected: {
         type: Boolean,

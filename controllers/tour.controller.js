@@ -78,9 +78,9 @@ class TourController {
 
     static async assignGuider(req, res) {
         try {
-            const { tourId, guider } = req.body
+            const { tourId, guider, fee } = req.body
 
-            const result = await TourService.assignGuider(tourId, guider)
+            const result = await TourService.assignGuider(tourId, guider, fee)
 
             if (result.success) return res.json(result)
             else return res.status(404).json(result)

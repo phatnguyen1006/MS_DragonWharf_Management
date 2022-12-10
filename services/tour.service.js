@@ -91,14 +91,19 @@ class TourService {
         }
     }
 
-    static async assignGuider(tourId, guider) {
+    static async assignGuider(tourId, guider, fee) {
         try {
             if (!guider || guider == "") return {
                 success: false,
                 message: "Vui lòng cung cấp tên người hướng dẫn.",
                 data: null
             }
-            const tour = await Tour.findByIdAndUpdate(tourId, { guider, inspected: true }, { returnDocument: "after" })
+            if (!fee) return {
+                success: false,
+                message: "Vui lòng điền phí tour.",
+                data: null
+            }
+            const tour = await Tour.findByIdAndUpdate(tourId, { guider, fee, inspected: true }, { returnDocument: "after" })
 
             if (!tour) return {
                 success: false,

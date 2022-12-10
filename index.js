@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 // Routes
 app.use("/user", UserRouter)
