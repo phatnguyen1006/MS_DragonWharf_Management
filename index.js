@@ -34,4 +34,4 @@ app.use("/*", (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
-});
+}).setTimeout(60*1000);
