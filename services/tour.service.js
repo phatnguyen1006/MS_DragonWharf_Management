@@ -57,7 +57,7 @@ class TourService {
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     static async getTours() {
-        const tours = await Tour.find().populate("user", "-password -__v")
+        const tours = await Tour.find()
 
         return {
             success: true,
