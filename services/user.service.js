@@ -99,7 +99,7 @@ class UserService {
             }
 
             return {
-                succes: true,
+                success: true,
                 message: "Cập nhật thông tin thành công!",
                 data: newData
             }
