@@ -10,6 +10,6 @@ TourRouter.route("/")
 TourRouter.get("/user", AuthMiddleware.requireUser, TourController.getToursByUser)
 TourRouter.put("/inspect", AuthMiddleware.requireAdmin, TourController.assignGuider)
 TourRouter.get("/statisticTour/:from/:to", AuthMiddleware.requireAdmin, TourController.statisticTourByMonth)
-TourRouter.get("/:tourId", AuthMiddleware.requireAdmin, TourController.getTourById)
+TourRouter.get("/:tourId", AuthMiddleware.requireUser, TourController.getTourById)
 
 export default TourRouter;
