@@ -21,8 +21,9 @@ class ReportService {
         }
     }
 
-    static async getReports() {
-        const reports = await Report.find().select("-__v");
+    static async getReports(page, limit) {
+        const skip = (page - 1)*limit
+        const reports = await Report.find().skip(skip).limit(limit).sort({_id: -1}).select("-__v");
 
         return {
             success: true,

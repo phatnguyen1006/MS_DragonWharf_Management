@@ -21,7 +21,9 @@ class ReportController {
 
     static async getReports(req, res) {
         try {
-            const result = await ReportService.getReports();
+            const { limit } = req.query || 20
+            const { page } = req.query || 1
+            const result = await ReportService.getReports(page, limit);
             if (result.success) {
                 return res.json(result)
             } else return res.status(400).json(result)

@@ -56,8 +56,9 @@ class TourService {
     // Admin only
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    static async getTours() {
-        const tours = await Tour.find()
+    static async getTours(page, limit) {
+        const skip = (page - 1)*limit
+        const tours = await Tour.find().skip(skip).limit(limit).sort({_id: -1})
 
         return {
             success: true,
