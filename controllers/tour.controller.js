@@ -45,7 +45,9 @@ class TourController {
     
     static async getTours(req, res) {
         try {
-            const result = await TourService.getTours();
+            const { limit } = req.query || 20
+            const { page } = req.query || 1
+            const result = await TourService.getTours(page, limit);
             if (result.success) return res.json(result)
             else return res.status(400).json(result)
         } catch(e) {

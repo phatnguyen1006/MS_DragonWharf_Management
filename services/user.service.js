@@ -139,8 +139,9 @@ class UserService {
     // Admin only
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    static async getUserList() {
-        const users = await User.find().select("-password -__v")
+    static async getUserList(page, limit) {
+        const skip = (page - 1)*limit
+        const users = await User.find().skip(skip).limit(limit).select("-password -__v")
 
         return {
             success: true,
