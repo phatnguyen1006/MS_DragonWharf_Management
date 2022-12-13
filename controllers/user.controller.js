@@ -192,6 +192,79 @@ class UserController {
             })
         }
     }
+
+    static async addUser(req, res) {
+        try {
+            if (
+                !req.body.email ||
+                !req.body.password ||
+                !req.body.name ||
+                !req.body.phone
+            ) return res.status(400).json({
+                success: false,
+                message: "Vui lòng cung cấp đầy đủ thông tin.",
+                data: null
+            })
+
+            const result =await UserService.addUser(req.body) 
+            if (result.success) {
+                return res.json(result)
+            } else {
+                return res.status(400).json(result)
+            }
+
+        } catch (e) {
+            if (e.code == 11000) return res.status(400).json({
+                success: false,
+                message: "Email đã tồn tại. Vui lòng sử dụng email khác.",
+                data: null
+            })
+            console.log(e.stack);
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
+
+    static async deleteUser(req, res) {
+        try {
+            const userId = req.params.id
+
+            const result = await UserService.deleteUser(userId)
+
+            if (result.success) return res.json(result)
+            else return res.status(400).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
+
+    static async updateUserInfo_Admin(req, res) {
+        try {
+            const { userId, data } = req.body
+
+            const result = await UserService.updateUserInfo(userId, data) 
+            if (result.success) {
+                return res.json(result) 
+            } else {
+                return res.status(400).json(result)
+            }
+        } catch (e) {
+            console.log(e.stack);
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
 }
 
 export default UserController;

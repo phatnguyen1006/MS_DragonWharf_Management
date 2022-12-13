@@ -5,7 +5,6 @@ class TourController {
     static async bookTour(req, res) {
         try {
             const data = req.body;
-            data.user = req.userId;
     
             const result = await TourService.bookTour(data)
     
@@ -102,6 +101,42 @@ class TourController {
 		    const to = new Date(moment(req.params.to).add(1, 'months'));
 
             const result = await TourService.statisticTourByMonth(from, to);
+
+            if (result.success) return res.json(result)
+            else return res.status(400).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
+
+    static async rejectTour(req, res) {
+        try {
+            const tourId = req.params.id
+
+            const result = await TourService.rejectTour(tourId)
+
+            if (result.success) return res.json(result)
+            else return res.status(400).json(result)
+        } catch(e) {
+            console.log(e.stack)
+            return res.status(500).json({
+                success: false,
+                message: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+                data: null
+            })
+        }
+    }
+
+    static async addTour(req, res) {
+        try {
+            const data = req.body
+
+            const result = await TourService.addTour(data)
 
             if (result.success) return res.json(result)
             else return res.status(400).json(result)

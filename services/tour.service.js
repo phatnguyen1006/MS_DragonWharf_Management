@@ -14,8 +14,7 @@ class TourService {
                 }
             }
 
-            const tour = await Tour.create(data);
-            await   Tour.populate(tour, {path: "user", select: "-password -__v"})
+            const tour = await Tour.create(data)
 
             return {
                 success: true,
@@ -178,6 +177,60 @@ class TourService {
                 success: false,
                 message: "Không tìm thấy tour.",
                 data: null
+            }
+            throw e
+        }
+    }
+
+    static async rejectTour(tourId) {
+        try {
+            const result = await Tour.findByIdAndUpdate(tourId, { status: "rejected" }, { returnDocument: "after" })
+
+            if (!result) return {
+                success: false,
+                message: "Không tìm thấy tour.",
+                data: null
+            }
+
+            return {
+                success: true,
+                message: "Đã reject tour.",
+                data: result
+            }
+        } catch(e){
+            if (e instanceof mongoose.CastError) return {
+                success: false,
+                message: "Không tìm thấy tour.",
+                data: null
+            }
+            throw e
+        }
+    }
+
+    static async addTour(data) {
+        try {
+            if (Date.parse(data.date) < Date.now()) {
+                return {
+                    success: false,
+                    message: "Không thể tạo tour tại thời điểm trong quá khứ.",
+                    data: null
+                }
+            }
+
+            const tour = await Tour.create(data);
+
+            return {
+                success: true,
+                message: "Tạo tour thành công!",
+                data: tour
+            }
+        } catch(e) {
+            if (e instanceof mongoose.Error.ValidationError) {
+                return {
+                    success: false,
+                    message: "Thông tin tour không đủ hoặc không hợp lệ.",
+                    data: null
+                }
             }
             throw e
         }
