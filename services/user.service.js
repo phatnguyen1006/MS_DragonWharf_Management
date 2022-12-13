@@ -78,17 +78,17 @@ class UserService {
 
     static async updateUserInfo(id, updatedData) {
         try {
-            if (updatedData.password != null || updatedData.email != null) {
+            if (updatedData.password != null) {
                 return {
                     success: false,
-                    message: "Không được phép cập nhật email và mật khẩu thông qua request này!",
+                    message: "Không được phép cập nhật mật khẩu thông qua request này!",
                     data: null
                 }
             }
 
             delete updatedData.__v;
 
-            const newData = await User.findByIdAndUpdate(id, updatedData, { returnDocument: "after" })
+            const newData = await User.findByIdAndUpdate(id, updatedData, { returnDocument: "after" }).select("-password")
 
             if (!newData) {
                 return {
@@ -186,6 +186,44 @@ class UserService {
             success: true,
             message: "Tìm kiếm user thành công.",
             data: searchResult
+        }
+    }
+
+    static async addUser(userData) {
+
+        const { email, password, name, phone, dob } = userData;
+
+        const user = await User.create({ email, password, name, phone, dob });
+        
+        return {
+            success: true,
+            message: "Tạo người dùng mới thành công!",
+            data: user
+        }
+
+    }
+
+    static async deleteUser(userId) {
+        try {
+            const result = await User.findByIdAndRemove(userId)
+    
+            if (!result) return {
+                success: false,
+                message: "Không tìm thấy người dùng.",
+                data: result
+            }
+    
+            return {
+                success: true,
+                message: "Xoá người dùng thành công!",
+                data: result
+            }
+        } catch(e) {
+            if (e instanceof mongoose.Error.CastError) return {
+                success: false,
+                message: "Không tìm thấy người dùng.",
+                data: null
+            }
         }
     }
 }

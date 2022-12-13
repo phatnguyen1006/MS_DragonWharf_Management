@@ -30,9 +30,10 @@ const tourSchema = new mongoose.Schema({
     fee: {
         type: Number
     },
-    inspected: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String,
+        default: "pending",
+        enum: ["pending", "approved", "rejected"]
     }
 })
 

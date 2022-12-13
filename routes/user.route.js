@@ -13,5 +13,8 @@ UserRouter.post("/refresh-token", UserController.refreshToken)
 UserRouter.get("/list", AuthMiddleware.requireAdmin, UserController.getUserList)
 UserRouter.get("/profile/:id", AuthMiddleware.requireAdmin, UserController.getUserById)
 UserRouter.get("/search", AuthMiddleware.requireAdmin, UserController.searchUser)
+UserRouter.post("/create", AuthMiddleware.requireAdmin, UserController.addUser)
+UserRouter.delete("/:id", AuthMiddleware.requireAdmin, UserController.deleteUser)
+UserRouter.put("/update-info", AuthMiddleware.requireAdmin, UserController.updateUserInfo_Admin)
 
 export default UserRouter;
