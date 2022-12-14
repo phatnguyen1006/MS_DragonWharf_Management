@@ -141,7 +141,7 @@ class UserService {
 
     static async getUserList(page, limit) {
         const skip = (page - 1)*limit
-        const users = await User.find().skip(skip).limit(limit).select("-password -__v")
+        const users = await User.find().skip(skip).limit(limit).select("-password -__v").sort({_id: -1})
 
         return {
             success: true,

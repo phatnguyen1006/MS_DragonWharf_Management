@@ -35,7 +35,7 @@ class TourService {
 
     static async getToursByUser(userId) {
         try {
-            const tour = await Tour.find({ user: userId })
+            const tour = await Tour.find({ user: userId }).sort({_id: -1})
 
             return {
                 success: true,
