@@ -5,6 +5,7 @@ class TourController {
     static async bookTour(req, res) {
         try {
             const data = req.body;
+            data.user = req.userId;
     
             const result = await TourService.bookTour(data)
     

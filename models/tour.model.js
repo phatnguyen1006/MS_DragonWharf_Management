@@ -5,6 +5,10 @@ const tourSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    },
     name: {
         type: String,
         required: true
