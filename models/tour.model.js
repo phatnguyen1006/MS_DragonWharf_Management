@@ -38,6 +38,10 @@ const tourSchema = new mongoose.Schema({
         type: String,
         default: "pending",
         enum: ["pending", "approved", "rejected"]
+    },
+    rejectReason: {
+        type: String,
+        require: false
     }
 })
 

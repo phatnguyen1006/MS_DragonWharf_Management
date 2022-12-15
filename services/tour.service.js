@@ -103,7 +103,7 @@ class TourService {
                 message: "Vui lòng điền phí tour.",
                 data: null
             }
-            const tour = await Tour.findByIdAndUpdate(tourId, { guider, fee, inspected: true }, { returnDocument: "after" })
+            const tour = await Tour.findByIdAndUpdate(tourId, { guider, fee, status: 'approved' }, { returnDocument: "after" })
 
             if (!tour) return {
                 success: false,
@@ -182,9 +182,18 @@ class TourService {
         }
     }
 
-    static async rejectTour(tourId) {
+    static async rejectTour(tourId, reason) {
         try {
-            const result = await Tour.findByIdAndUpdate(tourId, { status: "rejected" }, { returnDocument: "after" })
+            const result = await Tour.findByIdAndUpdate(
+                tourId, 
+                { 
+                    status: "rejected",
+                    $set: { rejectReason: reason }
+                }, 
+                { 
+                    returnDocument: "after" 
+                }
+            )
 
             if (!result) return {
                 success: false,
