@@ -118,8 +118,9 @@ class TourController {
     static async rejectTour(req, res) {
         try {
             const tourId = req.params.id
+            const rejectReason = req.body.rejectReason
 
-            const result = await TourService.rejectTour(tourId)
+            const result = await TourService.rejectTour(tourId, rejectReason)
 
             if (result.success) return res.json(result)
             else return res.status(400).json(result)
